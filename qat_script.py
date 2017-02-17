@@ -247,7 +247,7 @@ class App(PropertyChangeListener):
         """
         self.mv = self.get_mapview()
         if self.mv is None:
-            Main.main.addLayer(OsmDataLayer(DataSet(),
+            Main.getLayerManager().addLayer(OsmDataLayer(DataSet(),
                                             OsmDataLayer.createNewName(),
                                             None))
             self.mv = self.get_mapview()
@@ -591,9 +591,9 @@ class App(PropertyChangeListener):
                 removeLayers.append(layer)
         for layer in removeLayers:
             self.errorLayers.remove(layer)
-            self.mv.removeLayer(layer)
+            Main.getLayerManager().removeLayer(layer)
 
-        self.mv.addLayer(errorLayer)
+        Main.getLayerManager().addLayer(errorLayer)
         self.mv.moveLayer(errorLayer, 0)
         self.mv.addMouseListener(errorLayer)
         return errorLayer

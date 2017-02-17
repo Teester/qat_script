@@ -360,15 +360,15 @@ class NewZoneDialog(JDialog, ActionListener, WindowListener):
         """
         layer = self.get_new_zone_editing_layer()
         if layer is not None:
-            self.app.mv.setActiveLayer(layer)
+            self.app.getLayerManager().setActiveLayer(layer)
         else:
-            Main.main.addLayer(OsmDataLayer(DataSet(), self.FAVAREALAYERNAME, None))
+            Main.getLayerManager().addLayer(OsmDataLayer(DataSet(), self.FAVAREALAYERNAME, None))
         Main.main.parent.toFront()
 
     def get_new_zone_editing_layer(self):
         """Check if the layer for editing the favourite area yet exists
         """
-        for layer in self.app.mv.getAllLayers():
+        for layer in Main.getLayerManager().getLayers():
             if layer.getName() == self.FAVAREALAYERNAME:
                 return layer
         return None
@@ -376,7 +376,7 @@ class NewZoneDialog(JDialog, ActionListener, WindowListener):
     def remove_new_zone_editing_layer(self):
         layer = self.get_new_zone_editing_layer()
         if layer is not None:
-            self.app.mv.removeLayer(layer)
+            Main.getLayerManager().removeLayer(layer)
 
     def on_zone_edited(self):
         """Read ways that delimit the favourite area and convert them to
@@ -392,7 +392,7 @@ class NewZoneDialog(JDialog, ActionListener, WindowListener):
         if mode in ("polygon", "boundary"):
             layer = self.get_new_zone_editing_layer()
             if layer is not None:
-                self.app.mv.setActiveLayer(layer)
+                Main.getLayerManager().setActiveLayer(layer)
             else:
                 if mode == "polygon":
                     msg = self.app.strings.getString("polygon_fav_layer_missing_msg")
@@ -404,7 +404,7 @@ class NewZoneDialog(JDialog, ActionListener, WindowListener):
                                               JOptionPane.WARNING_MESSAGE)
                 return
 
-            dataset = self.app.mv.editLayer.data
+            dataset = Main.getLayerManager().editLayer.data
             areaWKT = self.read_area_from_osm_ways(mode, dataset)
             if areaWKT is None:
                 print "I could not read the new favourite area."
