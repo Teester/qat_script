@@ -17,7 +17,7 @@ class KeepRightTool(Tool):
         self.title = "KeepRight"
 
         #Tool url
-        self.uri = "http://keepright.at/"
+        self.uri = "https://keepright.at/"
 
         #Translations
         self.isTranslated = True
@@ -141,7 +141,7 @@ class KeepRightTool(Tool):
     def download_urls(self, (zoneBbox, checks)):
         """Returns checks and urls for errors downloading
         """
-        url = "http://keepright.ipax.at/export.php?format=gpx"
+        url = self.uri + "/export.php?format=gpx"
         url += "&left=%s&right=%s&top=%s&bottom=%s" % (str(zoneBbox[0]), str(zoneBbox[2]), str(zoneBbox[3]), str(zoneBbox[1]))
         url += "&ch=0,%s" % ",".join([check.url for check in checks])
         return [{"checks": checks, "url": url}]
@@ -210,7 +210,7 @@ class KeepRightTool(Tool):
     def error_url(self, error):
         """Create a url to view an error in the web browser
         """
-        url = "http://keepright.ipax.at/report_map.php?"
+        url = self.uri + "/report_map.php?"
         url += "schema=%s" % error.errorId.split(" ")[0]
         url += "&error=%s" % error.errorId.split(" ")[1]
         return url
@@ -219,7 +219,7 @@ class KeepRightTool(Tool):
         """Tell the tool server that current error is a false
            positive
         """
-        url = "http://keepright.ipax.at/comment.php?"
+        url = self.uri + "/comment.php?"
         url += "st=ignore&"
         if len(error.other) != 0:
             #There is a comment on the error, copy it
@@ -232,7 +232,7 @@ class KeepRightTool(Tool):
     def sayBugFixed(self, error, check):
         """Tell tool server that the current error is fixed
         """
-        url = "http://keepright.ipax.at/comment.php?"
+        url = self.uri + "/comment.php?"
         url += "st=ignore_t&"
         if len(error.other) != 0:
             #There is a comment on the error, copy it

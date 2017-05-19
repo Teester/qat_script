@@ -110,7 +110,8 @@ class ErrorLayer(GpxLayer, MouseListener):
 
     def mouseClicked(self, e):
         if(e.getButton() == MouseEvent.BUTTON1):
-            if self.mv.getActiveLayer() == self:
+            #if self.mv.getActiveLayer() == self:
+            if Main.getLayerManager().getActiveLayer() == self:
                 error = self.getNearestNode(e.getPoint())
                 if error is not None:
                     selection = (self.tool, self.view, self.check)
